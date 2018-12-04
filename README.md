@@ -13,7 +13,7 @@ You will be able to:
 * Use adaboost to make predictions on a dataset
 * Use Gradient Boosting to make predictions on a dataset
 
-### Getting Started
+## Getting Started
 
 In this lab, we'll learn how to use Boosting algorithms to make classifications on the [Pima Indians Dataset](http://ftp.ics.uci.edu/pub/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.names). You will find the data stored within the file `pima-indians-diabetes.csv`. Our goal is to use boosting algorithms to classify each person as having or not having diabetes. Let's get started!
 
@@ -33,7 +33,7 @@ Now, use pandas to read in the data stored in `pima-indians-diabetes.csv` and st
 df = None
 ```
 
-### Cleaning, Exploration, and Preprocessing
+## Cleaning, Exploration, and Preprocessing
 
 The target we're trying to predict is the `'Outcome'` column. A `1` denotes a patient with diabetes. 
 
@@ -64,7 +64,7 @@ scaled_df.head()
 X_train, X_test, y_train, y_test = None
 ```
 
-### Training the Models
+## Training the Models
 
 Now that we've cleaned and preprocessed our dataset, we're ready to fit some models!
 
@@ -174,3 +174,7 @@ print(None)
 ```
 
 These models didn't do poorly, but we could probably do a bit better by tuning some of the important parameters such as the **_Learning Rate_**. 
+
+## Summary
+
+In this lab, we learned how to use scikit-learn's implementations of popular boosting algorithms such as AdaBoost and Gradient Boosted Trees to make classification predictions on a real-world dataset!
