@@ -3,7 +3,7 @@
 
 ## Introduction
 
-In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifiers from sklearn!
+In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifiers from scikit-learn!
 
 ## Objectives
 
