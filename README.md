@@ -3,7 +3,7 @@
 
 ## Introduction
 
-In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifiers from sklearn!
+In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifiers from scikit-learn!
 
 ## Objectives
 
@@ -179,7 +179,7 @@ target.hist()
 
 
 
-![png](output_6_1.png)
+![png](index_files/index_6_1.png)
 
 
 
@@ -213,7 +213,7 @@ scaled_df.head()
       return self.partial_fit(X, y)
     C:\Users\medio\AppData\Local\Continuum\anaconda3\lib\site-packages\sklearn\base.py:462: DataConversionWarning: Data with input dtype int64, float64 were all converted to float64 by StandardScaler.
       return self.fit(X, **fit_params).transform(X)
-    
+
 
 
 
@@ -412,7 +412,7 @@ display_acc_and_f1_score(y_test, gbt_clf_test_preds, model_name='Gradient Booste
     Model: Gradient Boosted Trees
     Accuracy: 0.8125
     F1-Score: 0.6727272727272728
-    
+
 
 Let's go one step further and create a confusion matrix and classification report for each. Do so in the cell below.
 
@@ -459,7 +459,7 @@ print(adaboost_classification_report)
        macro avg       0.76      0.75      0.75       192
     weighted avg       0.78      0.79      0.78       192
     
-    
+
 
 
 ```python
@@ -476,7 +476,7 @@ print(gbt_classification_report)
        macro avg       0.80      0.76      0.77       192
     weighted avg       0.81      0.81      0.81       192
     
-    
+
 
 **_Question:_** How did the models perform? Interpret the evaluation metrics above to answer this question.
 
@@ -507,7 +507,7 @@ print(cross_val_score(adaboost_clf, scaled_df, target, cv=5).mean())
 
     Mean Adaboost Cross-Val Score (k=5):
     0.7631270690094218
-    
+
 
 
 ```python
@@ -518,7 +518,7 @@ print(cross_val_score(gbt_clf, scaled_df, target, cv=5).mean())
 
     Mean GBT Cross-Val Score (k=5):
     0.7591715474068416
-    
+
 
 These models didn't do poorly, but we could probably do a bit better by tuning some of the important parameters such as the **_Learning Rate_**. 
 
