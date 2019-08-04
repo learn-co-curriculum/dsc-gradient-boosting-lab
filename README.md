@@ -10,7 +10,7 @@ In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifi
 You will be able to:
 
 * Compare and contrast Adaboost and Gradient Boosting
-* Use adaboost to make predictions on a dataset
+* Use Adaboost to make predictions on a dataset
 * Use Gradient Boosting to make predictions on a dataset
 
 ## Getting Started
@@ -25,6 +25,11 @@ We'll begin by importing everything we need for this lab. In the cell below:
 * Import `StandardScaler` from `sklearn.preprocessing`
 * Import `AdaboostClassifier` and `GradientBoostingClassifier` from `sklearn.ensemble`
 * Import `accuracy_score`, `f1_score`, `confusion_matrix`, and `classification_report` from `sklearn.metrics`
+
+
+```python
+# Your code here
+```
 
 Now, use pandas to read in the data stored in `pima-indians-diabetes.csv` and store it in a DataFrame. Display the head to inspect the data we've imported and ensure everything loaded correctly. 
 
@@ -50,6 +55,16 @@ In the following cells:
 
 ```python
 target = None
+```
+
+
+```python
+# Your code here
+```
+
+
+```python
+# Your code here
 ```
 
 
@@ -80,6 +95,16 @@ gbt_clf = None
 ```
 
 Now, train each of the classifiers using the training data.
+
+
+```python
+# Your code here - Adaboost classifier
+```
+
+
+```python
+# Your code here - Gradient Boosting classifier
+```
 
 Now, let's create some predictions using each model so that we can calculate the training and testing accuracy for each.
 
@@ -150,7 +175,7 @@ As a final performance check, let's calculate the `cross_val_score` for each mod
 
 Recall that to compute the cross validation score, we need to pass in:
 
-* a classifier
+* A classifier
 * All training Data
 * All labels
 * The number of folds we want in our cross validation score. 
