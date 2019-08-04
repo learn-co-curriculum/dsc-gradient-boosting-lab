@@ -10,7 +10,7 @@ In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifi
 You will be able to:
 
 * Compare and contrast Adaboost and Gradient Boosting
-* Use adaboost to make predictions on a dataset
+* Use Adaboost to make predictions on a dataset
 * Use Gradient Boosting to make predictions on a dataset
 
 ## Getting Started
@@ -28,7 +28,7 @@ We'll begin by importing everything we need for this lab. In the cell below:
 
 
 ```python
-
+# Your code here
 ```
 
 
@@ -186,7 +186,7 @@ df.drop('Outcome', axis=1, inplace=True)
 
 
 ```python
-
+# Your code here
 ```
 
 
@@ -198,7 +198,7 @@ target.hist()
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x2176c94b2e8>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a1a9fc1d0>
 
 
 
@@ -208,7 +208,7 @@ target.hist()
 
 
 ```python
-
+# Your code here
 ```
 
 
@@ -246,12 +246,6 @@ scaler = StandardScaler()
 scaled_df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
 scaled_df.head()
 ```
-
-    C:\Users\medio\AppData\Local\Continuum\anaconda3\lib\site-packages\sklearn\preprocessing\data.py:625: DataConversionWarning: Data with input dtype int64, float64 were all converted to float64 by StandardScaler.
-      return self.partial_fit(X, y)
-    C:\Users\medio\AppData\Local\Continuum\anaconda3\lib\site-packages\sklearn\base.py:462: DataConversionWarning: Data with input dtype int64, float64 were all converted to float64 by StandardScaler.
-      return self.fit(X, **fit_params).transform(X)
-
 
 
 
@@ -383,7 +377,7 @@ Now, train each of the classifiers using the training data.
 
 
 ```python
-
+# Your code here - Adaboost classifier
 ```
 
 
@@ -395,14 +389,14 @@ adaboost_clf.fit(X_train, y_train)
 
 
 
-    AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-              learning_rate=1.0, n_estimators=50, random_state=None)
+    AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None, learning_rate=1.0,
+                       n_estimators=50, random_state=None)
 
 
 
 
 ```python
-
+# Your code here - Gradient Boosting classifier
 ```
 
 
@@ -415,14 +409,15 @@ gbt_clf.fit(X_train, y_train)
 
 
     GradientBoostingClassifier(criterion='friedman_mse', init=None,
-                  learning_rate=0.1, loss='deviance', max_depth=3,
-                  max_features=None, max_leaf_nodes=None,
-                  min_impurity_decrease=0.0, min_impurity_split=None,
-                  min_samples_leaf=1, min_samples_split=2,
-                  min_weight_fraction_leaf=0.0, n_estimators=100,
-                  n_iter_no_change=None, presort='auto', random_state=None,
-                  subsample=1.0, tol=0.0001, validation_fraction=0.1,
-                  verbose=0, warm_start=False)
+                               learning_rate=0.1, loss='deviance', max_depth=3,
+                               max_features=None, max_leaf_nodes=None,
+                               min_impurity_decrease=0.0, min_impurity_split=None,
+                               min_samples_leaf=1, min_samples_split=2,
+                               min_weight_fraction_leaf=0.0, n_estimators=100,
+                               n_iter_no_change=None, presort='auto',
+                               random_state=None, subsample=1.0, tol=0.0001,
+                               validation_fraction=0.1, verbose=0,
+                               warm_start=False)
 
 
 
@@ -526,7 +521,7 @@ adaboost_confusion_matrix
 
 
     array([[112,  18],
-           [ 23,  39]], dtype=int64)
+           [ 23,  39]])
 
 
 
@@ -547,7 +542,7 @@ gbt_confusion_matrix
 
 
     array([[119,  11],
-           [ 25,  37]], dtype=int64)
+           [ 25,  37]])
 
 
 
@@ -569,7 +564,7 @@ print(adaboost_classification_report)
                0       0.83      0.86      0.85       130
                1       0.68      0.63      0.66        62
     
-       micro avg       0.79      0.79      0.79       192
+        accuracy                           0.79       192
        macro avg       0.76      0.75      0.75       192
     weighted avg       0.78      0.79      0.78       192
     
@@ -593,7 +588,7 @@ print(gbt_classification_report)
                0       0.83      0.92      0.87       130
                1       0.77      0.60      0.67        62
     
-       micro avg       0.81      0.81      0.81       192
+        accuracy                           0.81       192
        macro avg       0.80      0.76      0.77       192
     weighted avg       0.81      0.81      0.81       192
     
@@ -610,7 +605,7 @@ As a final performance check, let's calculate the `cross_val_score` for each mod
 
 Recall that to compute the cross validation score, we need to pass in:
 
-* a classifier
+* A classifier
 * All training Data
 * All labels
 * The number of folds we want in our cross validation score. 
@@ -654,7 +649,7 @@ print(cross_val_score(gbt_clf, scaled_df, target, cv=5).mean())
 ```
 
     Mean GBT Cross-Val Score (k=5):
-    0.7591715474068416
+    0.7578728461081402
 
 
 These models didn't do poorly, but we could probably do a bit better by tuning some of the important parameters such as the **_Learning Rate_**. 
