@@ -22,7 +22,6 @@ We'll begin by importing everything we need for this lab. In the cell below:
 * Import `numpy`, `pandas`, and `matplotlib.pyplot`, and set the standard alias for each. Also set matplotlib visualizations to display inline. 
 * Set a random seed of `0` by using `np.random.seed(0)`
 * Import `train_test_split` and `cross_val_score` from `sklearn.model_selection`
-* Import `StandardScaler` from `sklearn.preprocessing`
 * Import `AdaboostClassifier` and `GradientBoostingClassifier` from `sklearn.ensemble`
 * Import `accuracy_score`, `f1_score`, `confusion_matrix`, and `classification_report` from `sklearn.metrics`
 
@@ -40,7 +39,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 %matplotlib inline
 from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 ```
@@ -198,7 +196,7 @@ target.hist()
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a1a9fc1d0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x1a1632c400>
 
 
 
@@ -234,121 +232,25 @@ df.isna().sum()
 
 
 ```python
-scaler = None
-scaled_df = None
-scaled_df.head()
-```
-
-
-```python
-# __SOLUTION__ 
-scaler = StandardScaler()
-scaled_df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
-scaled_df.head()
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Pregnancies</th>
-      <th>Glucose</th>
-      <th>BloodPressure</th>
-      <th>SkinThickness</th>
-      <th>Insulin</th>
-      <th>BMI</th>
-      <th>DiabetesPedigreeFunction</th>
-      <th>Age</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.639947</td>
-      <td>0.848324</td>
-      <td>0.149641</td>
-      <td>0.907270</td>
-      <td>-0.692891</td>
-      <td>0.204013</td>
-      <td>0.468492</td>
-      <td>1.425995</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-0.844885</td>
-      <td>-1.123396</td>
-      <td>-0.160546</td>
-      <td>0.530902</td>
-      <td>-0.692891</td>
-      <td>-0.684422</td>
-      <td>-0.365061</td>
-      <td>-0.190672</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1.233880</td>
-      <td>1.943724</td>
-      <td>-0.263941</td>
-      <td>-1.288212</td>
-      <td>-0.692891</td>
-      <td>-1.103255</td>
-      <td>0.604397</td>
-      <td>-0.105584</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-0.844885</td>
-      <td>-0.998208</td>
-      <td>-0.160546</td>
-      <td>0.154533</td>
-      <td>0.123302</td>
-      <td>-0.494043</td>
-      <td>-0.920763</td>
-      <td>-1.041549</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>-1.141852</td>
-      <td>0.504055</td>
-      <td>-1.504687</td>
-      <td>0.907270</td>
-      <td>0.765836</td>
-      <td>1.409746</td>
-      <td>5.484909</td>
-      <td>-0.020496</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
 X_train, X_test, y_train, y_test = None
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-11-f223888184cb> in <module>()
+    ----> 1 X_train, X_test, y_train, y_test = None
+    
+
+    TypeError: 'NoneType' object is not iterable
+
+
+
 ```python
 # __SOLUTION__ 
-X_train, X_test, y_train, y_test = train_test_split(scaled_df, target, test_size=0.25)
+X_train, X_test, y_train, y_test = train_test_split(df, target, test_size=0.25)
 ```
 
 ## Training the Models
@@ -389,8 +291,8 @@ adaboost_clf.fit(X_train, y_train)
 
 
 
-    AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None, learning_rate=1.0,
-                       n_estimators=50, random_state=None)
+    AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+              learning_rate=1.0, n_estimators=50, random_state=None)
 
 
 
@@ -409,15 +311,14 @@ gbt_clf.fit(X_train, y_train)
 
 
     GradientBoostingClassifier(criterion='friedman_mse', init=None,
-                               learning_rate=0.1, loss='deviance', max_depth=3,
-                               max_features=None, max_leaf_nodes=None,
-                               min_impurity_decrease=0.0, min_impurity_split=None,
-                               min_samples_leaf=1, min_samples_split=2,
-                               min_weight_fraction_leaf=0.0, n_estimators=100,
-                               n_iter_no_change=None, presort='auto',
-                               random_state=None, subsample=1.0, tol=0.0001,
-                               validation_fraction=0.1, verbose=0,
-                               warm_start=False)
+                  learning_rate=0.1, loss='deviance', max_depth=3,
+                  max_features=None, max_leaf_nodes=None,
+                  min_impurity_decrease=0.0, min_impurity_split=None,
+                  min_samples_leaf=1, min_samples_split=2,
+                  min_weight_fraction_leaf=0.0, n_estimators=100,
+                  n_iter_no_change=None, presort='auto', random_state=None,
+                  subsample=1.0, tol=0.0001, validation_fraction=0.1,
+                  verbose=0, warm_start=False)
 
 
 
@@ -462,6 +363,25 @@ print("")
 display_acc_and_f1_score(y_test, gbt_clf_test_preds, model_name='Gradient Boosted Trees')
 ```
 
+    Training Metrics
+    Model: None
+    Accuracy: None
+    F1-Score: None
+    
+    Model: None
+    Accuracy: None
+    F1-Score: None
+    
+    Testing Metrics
+    Model: None
+    Accuracy: None
+    F1-Score: None
+    
+    Model: None
+    Accuracy: None
+    F1-Score: None
+
+
 
 ```python
 # __SOLUTION__ 
@@ -494,8 +414,8 @@ display_acc_and_f1_score(y_test, gbt_clf_test_preds, model_name='Gradient Booste
     
     Testing Metrics
     Model: AdaBoost
-    Accuracy: 0.7864583333333334
-    F1-Score: 0.6554621848739496
+    Accuracy: 0.7916666666666666
+    F1-Score: 0.6666666666666667
     
     Model: Gradient Boosted Trees
     Accuracy: 0.8125
@@ -521,7 +441,7 @@ adaboost_confusion_matrix
 
 
     array([[112,  18],
-           [ 23,  39]])
+           [ 22,  40]])
 
 
 
@@ -552,6 +472,9 @@ adaboost_classification_report = None
 print(adaboost_classification_report)
 ```
 
+    None
+
+
 
 ```python
 # __SOLUTION__ 
@@ -561,12 +484,12 @@ print(adaboost_classification_report)
 
                   precision    recall  f1-score   support
     
-               0       0.83      0.86      0.85       130
-               1       0.68      0.63      0.66        62
+               0       0.84      0.86      0.85       130
+               1       0.69      0.65      0.67        62
     
-        accuracy                           0.79       192
-       macro avg       0.76      0.75      0.75       192
-    weighted avg       0.78      0.79      0.78       192
+       micro avg       0.79      0.79      0.79       192
+       macro avg       0.76      0.75      0.76       192
+    weighted avg       0.79      0.79      0.79       192
     
 
 
@@ -575,6 +498,9 @@ print(adaboost_classification_report)
 gbt_classification_report = None
 print(gbt_classification_report)
 ```
+
+    None
+
 
 
 ```python
@@ -588,7 +514,7 @@ print(gbt_classification_report)
                0       0.83      0.92      0.87       130
                1       0.77      0.60      0.67        62
     
-        accuracy                           0.81       192
+       micro avg       0.81      0.81      0.81       192
        macro avg       0.80      0.76      0.77       192
     weighted avg       0.81      0.81      0.81       192
     
@@ -621,11 +547,15 @@ print(None)
 # Expected Output: 0.7631270690094218
 ```
 
+    Mean Adaboost Cross-Val Score (k=5):
+    None
+
+
 
 ```python
 # __SOLUTION__ 
 print('Mean Adaboost Cross-Val Score (k=5):')
-print(cross_val_score(adaboost_clf, scaled_df, target, cv=5).mean())
+print(cross_val_score(adaboost_clf, df, target, cv=5).mean())
 # Expected Output: 0.7631270690094218
 ```
 
@@ -640,16 +570,20 @@ print(None)
 # Expected Output: 0.7591715474068416
 ```
 
+    Mean GBT Cross-Val Score (k=5):
+    None
+
+
 
 ```python
 # __SOLUTION__ 
 print('Mean GBT Cross-Val Score (k=5):')
-print(cross_val_score(gbt_clf, scaled_df, target, cv=5).mean())
+print(cross_val_score(gbt_clf, df, target, cv=5).mean())
 # Expected Output: 0.7591715474068416
 ```
 
     Mean GBT Cross-Val Score (k=5):
-    0.7578728461081402
+    0.7591715474068416
 
 
 These models didn't do poorly, but we could probably do a bit better by tuning some of the important parameters such as the **_Learning Rate_**. 
