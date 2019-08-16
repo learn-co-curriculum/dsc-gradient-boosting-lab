@@ -22,7 +22,6 @@ We'll begin by importing everything we need for this lab. In the cell below:
 * Import `numpy`, `pandas`, and `matplotlib.pyplot`, and set the standard alias for each. Also set matplotlib visualizations to display inline. 
 * Set a random seed of `0` by using `np.random.seed(0)`
 * Import `train_test_split` and `cross_val_score` from `sklearn.model_selection`
-* Import `StandardScaler` from `sklearn.preprocessing`
 * Import `AdaboostClassifier` and `GradientBoostingClassifier` from `sklearn.ensemble`
 * Import `accuracy_score`, `f1_score`, `confusion_matrix`, and `classification_report` from `sklearn.metrics`
 
@@ -69,15 +68,20 @@ target = None
 
 
 ```python
-scaler = None
-scaled_df = None
-scaled_df.head()
-```
-
-
-```python
 X_train, X_test, y_train, y_test = None
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-11-f223888184cb> in <module>()
+    ----> 1 X_train, X_test, y_train, y_test = None
+    
+
+    TypeError: 'NoneType' object is not iterable
+
 
 ## Training the Models
 
@@ -138,6 +142,25 @@ print("")
 display_acc_and_f1_score(y_test, gbt_clf_test_preds, model_name='Gradient Boosted Trees')
 ```
 
+    Training Metrics
+    Model: None
+    Accuracy: None
+    F1-Score: None
+    
+    Model: None
+    Accuracy: None
+    F1-Score: None
+    
+    Testing Metrics
+    Model: None
+    Accuracy: None
+    F1-Score: None
+    
+    Model: None
+    Accuracy: None
+    F1-Score: None
+
+
 Let's go one step further and create a confusion matrix and classification report for each. Do so in the cell below.
 
 
@@ -158,11 +181,17 @@ adaboost_classification_report = None
 print(adaboost_classification_report)
 ```
 
+    None
+
+
 
 ```python
 gbt_classification_report = None
 print(gbt_classification_report)
 ```
+
+    None
+
 
 **_Question:_** How did the models perform? Interpret the evaluation metrics above to answer this question.
 
@@ -191,12 +220,20 @@ print(None)
 # Expected Output: 0.7631270690094218
 ```
 
+    Mean Adaboost Cross-Val Score (k=5):
+    None
+
+
 
 ```python
 print('Mean GBT Cross-Val Score (k=5):')
 print(None)
 # Expected Output: 0.7591715474068416
 ```
+
+    Mean GBT Cross-Val Score (k=5):
+    None
+
 
 These models didn't do poorly, but we could probably do a bit better by tuning some of the important parameters such as the **_Learning Rate_**. 
 
