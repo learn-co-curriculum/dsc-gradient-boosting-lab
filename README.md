@@ -3,38 +3,24 @@
 
 ## Introduction
 
-In this lab, we'll learn how to use both Adaboost and Gradient Boosting Classifiers from scikit-learn!
+In this lab, we'll learn how to use both Adaboost and Gradient Boosting classifiers from scikit-learn!
 
 ## Objectives
 
 You will be able to:
 
-* Compare and contrast Adaboost and Gradient Boosting
-* Use Adaboost to make predictions on a dataset
-* Use Gradient Boosting to make predictions on a dataset
+- Use AdaBoost to make predictions on a dataset 
+- Use Gradient Boosting to make predictions on a dataset 
 
 ## Getting Started
 
-In this lab, we'll learn how to use Boosting algorithms to make classifications on the [Pima Indians Dataset](http://ftp.ics.uci.edu/pub/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.names). You will find the data stored within the file `pima-indians-diabetes.csv`. Our goal is to use boosting algorithms to classify each person as having or not having diabetes. Let's get started!
+In this lab, we'll learn how to use boosting algorithms to make classifications on the [Pima Indians Dataset](http://ftp.ics.uci.edu/pub/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.names). You will find the data stored in the file `'pima-indians-diabetes.csv'`. Our goal is to use boosting algorithms to determine whether a person has diabetes. Let's get started!
 
-We'll begin by importing everything we need for this lab. In the cell below:
-
-* Import `numpy`, `pandas`, and `matplotlib.pyplot`, and set the standard alias for each. Also set matplotlib visualizations to display inline. 
-* Set a random seed of `0` by using `np.random.seed(0)`
-* Import `train_test_split` and `cross_val_score` from `sklearn.model_selection`
-* Import `AdaboostClassifier` and `GradientBoostingClassifier` from `sklearn.ensemble`
-* Import `accuracy_score`, `f1_score`, `confusion_matrix`, and `classification_report` from `sklearn.metrics`
+We'll begin by importing everything we need for this lab. Run cell below:
 
 
 ```python
-# Your code here
-```
-
-
-```python
-# __SOLUTION__ 
 import numpy as np
-np.random.seed(0)
 import pandas as pd
 import matplotlib.pyplot as plt
 %matplotlib inline
@@ -43,17 +29,36 @@ from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 ```
 
-Now, use pandas to read in the data stored in `pima-indians-diabetes.csv` and store it in a DataFrame. Display the head to inspect the data we've imported and ensure everything loaded correctly. 
+
+```python
+# __SOLUTION__ 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
+```
+
+Now, use Pandas to import the data stored in `'pima-indians-diabetes.csv'` and store it in a DataFrame. Print the first five rows to inspect the data we've imported and ensure everything loaded correctly. 
 
 
 ```python
+# Import the data
 df = None
+
+# Print the first five rows
+
 ```
 
 
 ```python
 # __SOLUTION__ 
+# Import the data
 df = pd.read_csv('pima-indians-diabetes.csv')
+
+# Print the first five rows
 df.head()
 ```
 
@@ -156,62 +161,29 @@ df.head()
 
 
 
-## Cleaning, Exploration, and Preprocessing
+## Cleaning, exploration, and preprocessing
 
 The target we're trying to predict is the `'Outcome'` column. A `1` denotes a patient with diabetes. 
 
-By now, you're quite familiar with exploring and preprocessing a dataset, so we won't hold your hand for this step. 
+By now, you're quite familiar with exploring and preprocessing a dataset.  
 
 In the following cells:
 
-* Store our target column in a separate variable and remove it from the dataset
-* Check for null values and deal with them as you see fit (if any exist)
-* Check the distribution of our target
-* Scale the dataset
-* Split the dataset into training and testing sets, with a `test_size` of `0.25`
+* Check for missing values and deal with them as you see fit (if any exist) 
+* Count the number of patients with and without diabetes in this dataset 
+* Store the target column in a separate variable and remove it from the dataset
+* Split the dataset into training and test sets, with a `test_size` of 0.25 and a `random_state` of 42
 
 
 ```python
-target = None
+# Check for missing values
+
 ```
 
 
 ```python
 # __SOLUTION__ 
-target = df.Outcome
-df.drop('Outcome', axis=1, inplace=True)
-```
-
-
-```python
-# Your code here
-```
-
-
-```python
-# __SOLUTION__ 
-target.hist()
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1a1632c400>
-
-
-
-
-![png](index_files/index_10_1.png)
-
-
-
-```python
-# Your code here
-```
-
-
-```python
-# __SOLUTION__ 
+# Check for missing values
 df.isna().sum()
 ```
 
@@ -226,60 +198,93 @@ df.isna().sum()
     BMI                         0
     DiabetesPedigreeFunction    0
     Age                         0
+    Outcome                     0
     dtype: int64
 
 
 
 
 ```python
-X_train, X_test, y_train, y_test = None
+# Number of patients with and without diabetes
+
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    TypeError                                 Traceback (most recent call last)
-
-    <ipython-input-11-f223888184cb> in <module>()
-    ----> 1 X_train, X_test, y_train, y_test = None
-    
-
-    TypeError: 'NoneType' object is not iterable
-
 
 
 ```python
 # __SOLUTION__ 
-X_train, X_test, y_train, y_test = train_test_split(df, target, test_size=0.25)
+# Number of patients with and without diabetes
+df['Outcome'].value_counts()
 ```
 
-## Training the Models
 
-Now that we've cleaned and preprocessed our dataset, we're ready to fit some models!
 
-In the cell below:
 
-* Create an `AdaBoostClassifier`
-* Create a `GradientBoostingClassifer`
+    0    500
+    1    268
+    Name: Outcome, dtype: int64
+
+
 
 
 ```python
+target = None
+df = None
+```
+
+
+```python
+# __SOLUTION__ 
+target = df['Outcome']
+df = df.drop('Outcome', axis=1)
+```
+
+
+```python
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = None
+```
+
+
+```python
+# __SOLUTION__ 
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(df, target, test_size=0.25, random_state=42)
+```
+
+## Train the models
+
+Now that we've explored the dataset, we're ready to fit some models!
+
+In the cell below:
+
+* Instantiate an `AdaBoostClassifier` (set the `random_state` for 42)
+* Instantiate a `GradientBoostingClassifer` (set the `random_state` for 42) 
+
+
+```python
+# Instantiate an AdaBoostClassifier
 adaboost_clf = None
+
+# Instantiate an GradientBoostingClassifier
 gbt_clf = None
 ```
 
 
 ```python
 # __SOLUTION__ 
-adaboost_clf = AdaBoostClassifier()
-gbt_clf = GradientBoostingClassifier()
+# Instantiate an AdaBoostClassifier
+adaboost_clf = AdaBoostClassifier(random_state=42)
+
+# Instantiate an GradientBoostingClassifier
+gbt_clf = GradientBoostingClassifier(random_state=42)
 ```
 
-Now, train each of the classifiers using the training data.
+Now, fit the training data to both the classifiers: 
 
 
 ```python
-# Your code here - Adaboost classifier
+# Fit AdaBoostClassifier
+
 ```
 
 
@@ -291,14 +296,15 @@ adaboost_clf.fit(X_train, y_train)
 
 
 
-    AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
-              learning_rate=1.0, n_estimators=50, random_state=None)
+    AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None, learning_rate=1.0,
+                       n_estimators=50, random_state=42)
 
 
 
 
 ```python
-# Your code here - Gradient Boosting classifier
+# Fit GradientBoostingClassifier
+
 ```
 
 
@@ -311,23 +317,27 @@ gbt_clf.fit(X_train, y_train)
 
 
     GradientBoostingClassifier(criterion='friedman_mse', init=None,
-                  learning_rate=0.1, loss='deviance', max_depth=3,
-                  max_features=None, max_leaf_nodes=None,
-                  min_impurity_decrease=0.0, min_impurity_split=None,
-                  min_samples_leaf=1, min_samples_split=2,
-                  min_weight_fraction_leaf=0.0, n_estimators=100,
-                  n_iter_no_change=None, presort='auto', random_state=None,
-                  subsample=1.0, tol=0.0001, validation_fraction=0.1,
-                  verbose=0, warm_start=False)
+                               learning_rate=0.1, loss='deviance', max_depth=3,
+                               max_features=None, max_leaf_nodes=None,
+                               min_impurity_decrease=0.0, min_impurity_split=None,
+                               min_samples_leaf=1, min_samples_split=2,
+                               min_weight_fraction_leaf=0.0, n_estimators=100,
+                               n_iter_no_change=None, presort='auto',
+                               random_state=42, subsample=1.0, tol=0.0001,
+                               validation_fraction=0.1, verbose=0,
+                               warm_start=False)
 
 
 
-Now, let's create some predictions using each model so that we can calculate the training and testing accuracy for each.
+Now, let's use these models to predict labels on both the training and test sets: 
 
 
 ```python
+# AdaBoost model predictions
 adaboost_train_preds = None
 adaboost_test_preds = None
+
+# GradientBoosting model predictions
 gbt_clf_train_preds = None
 gbt_clf_test_preds = None
 ```
@@ -335,20 +345,23 @@ gbt_clf_test_preds = None
 
 ```python
 # __SOLUTION__ 
+# AdaBoost model predictions
 adaboost_train_preds = adaboost_clf.predict(X_train)
 adaboost_test_preds = adaboost_clf.predict(X_test)
+
+# GradientBoosting model predictions
 gbt_clf_train_preds = gbt_clf.predict(X_train)
 gbt_clf_test_preds = gbt_clf.predict(X_test)
 ```
 
-Now, complete the following function and use it to calculate the training and testing accuracy and f1-score for each model. 
+Now, complete the following function and use it to calculate the accuracy and f1-score for each model: 
 
 
 ```python
 def display_acc_and_f1_score(true, preds, model_name):
     acc = None
     f1 = None
-    print("Model: {}".format(None))
+    print("Model: {}".format(model_name))
     print("Accuracy: {}".format(None))
     print("F1-Score: {}".format(None))
     
@@ -362,25 +375,6 @@ display_acc_and_f1_score(y_test, adaboost_test_preds, model_name='AdaBoost')
 print("")
 display_acc_and_f1_score(y_test, gbt_clf_test_preds, model_name='Gradient Boosted Trees')
 ```
-
-    Training Metrics
-    Model: None
-    Accuracy: None
-    F1-Score: None
-    
-    Model: None
-    Accuracy: None
-    F1-Score: None
-    
-    Testing Metrics
-    Model: None
-    Accuracy: None
-    F1-Score: None
-    
-    Model: None
-    Accuracy: None
-    F1-Score: None
-
 
 
 ```python
@@ -405,24 +399,24 @@ display_acc_and_f1_score(y_test, gbt_clf_test_preds, model_name='Gradient Booste
 
     Training Metrics
     Model: AdaBoost
-    Accuracy: 0.8229166666666666
-    F1-Score: 0.7424242424242425
+    Accuracy: 0.8350694444444444
+    F1-Score: 0.7493403693931399
     
     Model: Gradient Boosted Trees
-    Accuracy: 0.9322916666666666
-    F1-Score: 0.9007633587786259
+    Accuracy: 0.9409722222222222
+    F1-Score: 0.9105263157894736
     
     Testing Metrics
     Model: AdaBoost
-    Accuracy: 0.7916666666666666
-    F1-Score: 0.6666666666666667
+    Accuracy: 0.7239583333333334
+    F1-Score: 0.618705035971223
     
     Model: Gradient Boosted Trees
-    Accuracy: 0.8125
-    F1-Score: 0.6727272727272728
+    Accuracy: 0.75
+    F1-Score: 0.6666666666666666
 
 
-Let's go one step further and create a confusion matrix and classification report for each. Do so in the cell below.
+Let's go one step further and create a confusion matrix and classification report for each. Do so in the cell below: 
 
 
 ```python
@@ -440,8 +434,8 @@ adaboost_confusion_matrix
 
 
 
-    array([[112,  18],
-           [ 22,  40]])
+    array([[96, 27],
+           [26, 43]])
 
 
 
@@ -461,8 +455,8 @@ gbt_confusion_matrix
 
 
 
-    array([[119,  11],
-           [ 25,  37]])
+    array([[96, 27],
+           [21, 48]])
 
 
 
@@ -471,9 +465,6 @@ gbt_confusion_matrix
 adaboost_classification_report = None
 print(adaboost_classification_report)
 ```
-
-    None
-
 
 
 ```python
@@ -484,12 +475,12 @@ print(adaboost_classification_report)
 
                   precision    recall  f1-score   support
     
-               0       0.84      0.86      0.85       130
-               1       0.69      0.65      0.67        62
+               0       0.79      0.78      0.78       123
+               1       0.61      0.62      0.62        69
     
-       micro avg       0.79      0.79      0.79       192
-       macro avg       0.76      0.75      0.76       192
-    weighted avg       0.79      0.79      0.79       192
+        accuracy                           0.72       192
+       macro avg       0.70      0.70      0.70       192
+    weighted avg       0.72      0.72      0.72       192
     
 
 
@@ -498,9 +489,6 @@ print(adaboost_classification_report)
 gbt_classification_report = None
 print(gbt_classification_report)
 ```
-
-    None
-
 
 
 ```python
@@ -511,12 +499,12 @@ print(gbt_classification_report)
 
                   precision    recall  f1-score   support
     
-               0       0.83      0.92      0.87       130
-               1       0.77      0.60      0.67        62
+               0       0.82      0.78      0.80       123
+               1       0.64      0.70      0.67        69
     
-       micro avg       0.81      0.81      0.81       192
-       macro avg       0.80      0.76      0.77       192
-    weighted avg       0.81      0.81      0.81       192
+        accuracy                           0.75       192
+       macro avg       0.73      0.74      0.73       192
+    weighted avg       0.76      0.75      0.75       192
     
 
 
@@ -527,18 +515,18 @@ ________________________________________________________________________________
 
  
  
-As a final performance check, let's calculate the `cross_val_score` for each model! Do so now in the cells below. 
+As a final performance check, let's calculate the 5-fold cross-validated score for each model! 
 
-Recall that to compute the cross validation score, we need to pass in:
+Recall that to compute the cross-validation score, we need to pass in:
 
 * A classifier
-* All training Data
+* All training data
 * All labels
-* The number of folds we want in our cross validation score. 
+* The number of folds we want in our cross validation score  
 
-Since we're computing cross validation score, we'll want to pass in the entire (scaled) dataset, as well as all of the labels. We don't need to give it data that has been split into training and testing sets because it will handle this step during the cross validation. 
+Since we're computing cross-validation score, we'll want to pass in the entire dataset, as well as all of the labels. 
 
-In the cells below, compute the mean cross validation score for each model. For the data, use our `scaled_df` variable. The corresponding labels are in the variable `target`. Also set `cv=5`.
+In the cells below, compute the mean cross validation score for each model. 
 
 
 ```python
@@ -546,10 +534,6 @@ print('Mean Adaboost Cross-Val Score (k=5):')
 print(None)
 # Expected Output: 0.7631270690094218
 ```
-
-    Mean Adaboost Cross-Val Score (k=5):
-    None
-
 
 
 ```python
@@ -569,10 +553,6 @@ print('Mean GBT Cross-Val Score (k=5):')
 print(None)
 # Expected Output: 0.7591715474068416
 ```
-
-    Mean GBT Cross-Val Score (k=5):
-    None
-
 
 
 ```python
