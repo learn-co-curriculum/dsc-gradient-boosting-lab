@@ -1,4 +1,3 @@
-
 # Gradient Boosting - Lab
 
 ## Introduction
@@ -522,7 +521,7 @@ Recall that to compute the cross-validation score, we need to pass in:
 * A classifier
 * All training data
 * All labels
-* The number of folds we want in our cross validation score  
+* The number of folds we want in our cross-validation score  
 
 Since we're computing cross-validation score, we'll want to pass in the entire dataset, as well as all of the labels. 
 
